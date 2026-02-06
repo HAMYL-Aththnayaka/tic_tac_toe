@@ -9,10 +9,41 @@ class HomePage extends StatefulWidget{
 
 
 class _HomePageState extends State<HomePage>{
+
+  String X_O_display='';
+
+  void _onTap(){
+    setState((){
+      X_O_display='O';
+    });
+  }
+
   @override
   Widget  build(BuildContext context){
     return Scaffold(
-    
+    backgroundColor:Colors.grey[600],
+    body:GridView.builder(
+    itemCount:9,
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:3), 
+    itemBuilder: (BuildContext context , int index){
+      return GestureDetector(
+        onTap:_onTap,
+        child: Container(
+          decoration:BoxDecoration(
+            border:Border.all(color:Color.fromARGB(255, 48, 13, 87)),
+          ),
+          child:Center(
+            child:Text(
+             // index.toString(),
+             X_O_display,
+              style:TextStyle(
+                color:Colors.white,
+                fontSize:40,
+              )),
+          ),
+        ),
+      );
+    })
     );
   }
 }
