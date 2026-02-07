@@ -10,6 +10,10 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage>{
 
+
+  bool onturn = true;
+
+
   List <String> X_O_display=[ 
                               "","","",
                               "","","",
@@ -18,8 +22,80 @@ class _HomePageState extends State<HomePage>{
 
   void _onTap(int index){
     setState((){
-      X_O_display[index]="O";
+      if(onturn){
+        X_O_display[index] = "O";
+        onturn = false;
+      }else{
+        X_O_display[index] = "X";
+        onturn = true;
+      }
+
+      _checkWinner();
     });
+  }
+
+  void _checkWinner(){
+   //Row wise win
+   if(
+      X_O_display[0] == X_O_display[1] &&
+      X_O_display[1] == X_O_display[2] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+   if(
+      X_O_display[3] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[5] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+   if(
+      X_O_display[6] == X_O_display[7] &&
+      X_O_display[7] == X_O_display[8] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+    //Column wise check
+    if(
+      X_O_display[0] == X_O_display[3] &&
+      X_O_display[3] == X_O_display[6] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+   if(
+      X_O_display[1] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[7] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+   if(
+      X_O_display[2] == X_O_display[5] &&
+      X_O_display[5] == X_O_display[8] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+
+    //Diagnols
+     if(
+      X_O_display[0] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[8] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+   if(
+      X_O_display[2] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[6] &&
+      X_O_display[0] !=""){
+        _showWinMsg();
+    }
+
+    }
+
+  
+
+
+
+  void _showWinMsg(){
+
   }
 
   @override
