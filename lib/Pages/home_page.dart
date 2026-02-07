@@ -45,13 +45,13 @@ class _HomePageState extends State<HomePage>{
    if(
       X_O_display[3] == X_O_display[4] &&
       X_O_display[4] == X_O_display[5] &&
-      X_O_display[0] !=""){
+      X_O_display[3] !=""){
         _showWinMsg();
     }
    if(
       X_O_display[6] == X_O_display[7] &&
       X_O_display[7] == X_O_display[8] &&
-      X_O_display[0] !=""){
+      X_O_display[6] !=""){
         _showWinMsg();
     }
     //Column wise check
@@ -64,13 +64,13 @@ class _HomePageState extends State<HomePage>{
    if(
       X_O_display[1] == X_O_display[4] &&
       X_O_display[4] == X_O_display[7] &&
-      X_O_display[0] !=""){
+      X_O_display[1] !=""){
         _showWinMsg();
     }
    if(
       X_O_display[2] == X_O_display[5] &&
       X_O_display[5] == X_O_display[8] &&
-      X_O_display[0] !=""){
+      X_O_display[2] !=""){
         _showWinMsg();
     }
 
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage>{
    if(
       X_O_display[2] == X_O_display[4] &&
       X_O_display[4] == X_O_display[6] &&
-      X_O_display[0] !=""){
+      X_O_display[2] !=""){
         _showWinMsg();
     }
 
@@ -95,7 +95,20 @@ class _HomePageState extends State<HomePage>{
 
 
   void _showWinMsg(){
-
+      showDialog(
+        context:context,
+        builder:(BuildContext context){
+          if(onturn){
+            return AlertDialog(
+              title:Text("Player 2 wins"),
+              );
+          }else{
+             return AlertDialog(
+              title:Text("Player 1 wins"),
+              );
+          }
+        }
+      );
   }
 
   @override
