@@ -10,6 +10,10 @@ class _HomePageState extends State<HomePage> {
 
   List<String> X_O_display = ["", "", "", "", "", "", "", "", ""];
 
+
+  int Xscore = 0;
+  int Oscore = 0;
+  
   void _onTap(int index) {
     setState(() {
       if (onturn && X_O_display[index] == '') {
@@ -72,17 +76,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showWinMsg() {
+     if(onturn){
+          setState((){
+            Xscore = Xscore+1;
+          });
+        }else if(!onturn){
+          setState((){
+            Oscore=Oscore+1;
+          });
+        
+        }
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        if (onturn) {
-          return AlertDialog(title: Text("Player 2 wins"));
-        } else {
-          return AlertDialog(title: Text("Player 1 wins"));
-        }
+       
+        return AlertDialog(
+          title: Text(onturn ? "Player 2 wins" : "Player 1 wins"),
+        );
       },
     );
   }
+
+ final  _myTextStuyles = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w900,
+  );
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,21 +115,17 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Player 01: O:',
-                    style: TextStyle(
-                      color: Colors.white,
-                  
-                      fontWeight: FontWeight.w900,
-                    ),
+                  Column(
+                    children: [
+                      Text('Player 01: O:', style: _myTextStuyles),
+                      Text('$Oscore', style: _myTextStuyles),
+                    ],
                   ),
-                  Text(
-                    'Player 02: X:',
-                    style: TextStyle(
-                      color: Colors.white,
-                    
-                      fontWeight: FontWeight.w900,
-                    ),
+                  Column(
+                    children: [
+                      Text('Player 01: O:', style: _myTextStuyles),
+                      Text('$Xscore', style: _myTextStuyles),
+                    ],
                   ),
                 ],
               ),
