@@ -10,10 +10,9 @@ class _HomePageState extends State<HomePage> {
 
   List<String> X_O_display = ["", "", "", "", "", "", "", "", ""];
 
-
   int Xscore = 0;
   int Oscore = 0;
-  
+
   void _onTap(int index) {
     setState(() {
       if (onturn && X_O_display[index] == '') {
@@ -76,33 +75,47 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showWinMsg() {
-     if(onturn){
-          setState((){
-            Xscore = Xscore+1;
-          });
-        }else if(!onturn){
-          setState((){
-            Oscore=Oscore+1;
-          });
-        
-        }
+    if (onturn) {
+      setState(() {
+        Xscore = Xscore + 1;
+      });
+    } else if (!onturn) {
+      setState(() {
+        Oscore = Oscore + 1;
+      });
+    }
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-       
         return AlertDialog(
           title: Text(onturn ? "Player 2 wins" : "Player 1 wins"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Reset"),
+              onPressed: () {
+                _clearBoard();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
   }
 
- final  _myTextStuyles = TextStyle(
+  final _myTextStuyles = TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.w900,
   );
 
-
+  void _clearBoard() {
+    setState(() {
+      for (int i = 0; i < 9; i++) {
+        X_O_display[i] = '';
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
