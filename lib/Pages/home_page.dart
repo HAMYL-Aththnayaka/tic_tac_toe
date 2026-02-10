@@ -115,17 +115,23 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      Text('Player 01: O:', style: _myTextStuyles),
-                      Text('$Oscore', style: _myTextStuyles),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Text('Player 01: O:', style: _myTextStuyles),
+                        Text('$Oscore', style: _myTextStuyles),
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Text('Player 01: O:', style: _myTextStuyles),
-                      Text('$Xscore', style: _myTextStuyles),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Text('Player 02: X:', style: _myTextStuyles),
+                        Text('$Xscore', style: _myTextStuyles),
+                      ],
+                    ),
                   ),
                 ],
               ),
