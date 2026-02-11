@@ -12,85 +12,103 @@ class _HomePageState extends State<HomePage> {
 
   int Xscore = 0;
   int Oscore = 0;
+  int filledBoxes = 0;
 
   void _onTap(int index) {
+    if (X_O_display[index] != "") return;
+
     setState(() {
-      if (onturn && X_O_display[index] == '') {
+      if (onturn) {
         X_O_display[index] = "O";
-        onturn = false;
-      } else if (!onturn && X_O_display[index] == '') {
+      } else {
         X_O_display[index] = "X";
-        onturn = true;
       }
 
-      _checkWinner();
+      filledBoxes += 1;
+      onturn = !onturn;
     });
+
+    _checkWinner();
   }
 
-  void _checkWinner() {
-    //Row wise win
-    if (X_O_display[0] == X_O_display[1] &&
-        X_O_display[1] == X_O_display[2] &&
-        X_O_display[0] != "") {
-      _showWinMsg();
-    }
-    if (X_O_display[3] == X_O_display[4] &&
-        X_O_display[4] == X_O_display[5] &&
-        X_O_display[3] != "") {
-      _showWinMsg();
-    }
-    if (X_O_display[6] == X_O_display[7] &&
-        X_O_display[7] == X_O_display[8] &&
-        X_O_display[6] != "") {
-      _showWinMsg();
-    }
-    //Column wise check
-    if (X_O_display[0] == X_O_display[3] &&
-        X_O_display[3] == X_O_display[6] &&
-        X_O_display[0] != "") {
-      _showWinMsg();
-    }
-    if (X_O_display[1] == X_O_display[4] &&
-        X_O_display[4] == X_O_display[7] &&
-        X_O_display[1] != "") {
-      _showWinMsg();
-    }
-    if (X_O_display[2] == X_O_display[5] &&
-        X_O_display[5] == X_O_display[8] &&
-        X_O_display[2] != "") {
-      _showWinMsg();
-    }
+ void _checkWinner() {
+  String winner = "";
 
-    //Diagnols
-    if (X_O_display[0] == X_O_display[4] &&
-        X_O_display[4] == X_O_display[8] &&
-        X_O_display[0] != "") {
-      _showWinMsg();
-    }
-    if (X_O_display[2] == X_O_display[4] &&
-        X_O_display[4] == X_O_display[6] &&
-        X_O_display[2] != "") {
-      _showWinMsg();
-    }
+  // Rows
+  if (X_O_display[0] == X_O_display[1] &&
+      X_O_display[1] == X_O_display[2] &&
+      X_O_display[0] != "") {
+    winner = X_O_display[0];
+  } 
+  else if (X_O_display[3] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[5] &&
+      X_O_display[3] != "") {
+    winner = X_O_display[3];
+  } 
+  else if (X_O_display[6] == X_O_display[7] &&
+      X_O_display[7] == X_O_display[8] &&
+      X_O_display[6] != "") {
+    winner = X_O_display[6];
   }
 
-  void _showWinMsg() {
-    if (onturn) {
-      setState(() {
-        Xscore = Xscore + 1;
-      });
-    } else if (!onturn) {
-      setState(() {
-        Oscore = Oscore + 1;
-      });
-    }
+  // Columns
+  else if (X_O_display[0] == X_O_display[3] &&
+      X_O_display[3] == X_O_display[6] &&
+      X_O_display[0] != "") {
+    winner = X_O_display[0];
+  } 
+  else if (X_O_display[1] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[7] &&
+      X_O_display[1] != "") {
+    winner = X_O_display[1];
+  } 
+  else if (X_O_display[2] == X_O_display[5] &&
+      X_O_display[5] == X_O_display[8] &&
+      X_O_display[2] != "") {
+    winner = X_O_display[2];
+  }
+
+  // Diagonals
+  else if (X_O_display[0] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[8] &&
+      X_O_display[0] != "") {
+    winner = X_O_display[0];
+  } 
+  else if (X_O_display[2] == X_O_display[4] &&
+      X_O_display[4] == X_O_display[6] &&
+      X_O_display[2] != "") {
+    winner = X_O_display[2];
+  }
+
+  // If winner found
+  if (winner != "") {
+    _showWinMsg(winner);
+    return;
+  }
+
+  // If no winner and board full → Draw
+  if (filledBoxes == 9) {
+    _showDrawmsg();
+  }
+}
+
+
+  void _showWinMsg(String winner) {
+    setState(() {
+      if (winner == "O") {
+        Oscore++;
+      } else {
+        Xscore++;
+      }
+    });
+
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(onturn ? "Player 2 wins" : "Player 1 wins"),
-          actions: <Widget>[
+          title: Text("Player ${winner == "O" ? "01 (O)" : "02 (X)"} Wins"),
+          actions: [
             TextButton(
               child: Text("Reset"),
               onPressed: () {
@@ -104,18 +122,42 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  final _myTextStuyles = TextStyle(
-    color: Colors.white,
-    fontWeight: FontWeight.w900,
-  );
+  void _showDrawmsg() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("It's a Draw"),
+          actions: [
+            TextButton(
+              child: Text("Reset"),
+              onPressed: () {
+                _clearBoard();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _clearBoard() {
     setState(() {
       for (int i = 0; i < 9; i++) {
         X_O_display[i] = '';
       }
+      filledBoxes = 0;
+      onturn = true;
     });
   }
+
+  final _myTextStuyles = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w900,
+    fontSize: 18,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -124,30 +166,30 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Expanded(
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        Text('Player 01: O:', style: _myTextStuyles),
-                        Text('$Oscore', style: _myTextStuyles),
-                      ],
-                    ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Player 01: O', style: _myTextStuyles),
+                      Text('$Oscore', style: _myTextStuyles),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        Text('Player 02: X:', style: _myTextStuyles),
-                        Text('$Xscore', style: _myTextStuyles),
-                      ],
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Player 02: X', style: _myTextStuyles),
+                      Text('$Xscore', style: _myTextStuyles),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -159,9 +201,7 @@ class _HomePageState extends State<HomePage> {
               ),
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () {
-                    _onTap(index);
-                  },
+                  onTap: () => _onTap(index),
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -170,9 +210,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Center(
                       child: Text(
-                        // index.toString(),
                         X_O_display[index],
-                        style: TextStyle(color: Colors.white, fontSize: 40),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                        ),
                       ),
                     ),
                   ),
