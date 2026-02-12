@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,6 +8,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool onturn = true;
+
+  static final TextStyle myNewFont = GoogleFonts.pressStart2p(
+    textStyle: const TextStyle(color: Colors.black, letterSpacing: 3),
+  );
+  static final TextStyle myNewWhiteFont = GoogleFonts.pressStart2p(
+    textStyle: const TextStyle(
+      color: Colors.white,
+      letterSpacing: 3,
+      fontSize: 10,
+    ),
+  );
 
   List<String> X_O_display = ["", "", "", "", "", "", "", "", ""];
 
@@ -31,67 +43,59 @@ class _HomePageState extends State<HomePage> {
     _checkWinner();
   }
 
- void _checkWinner() {
-  String winner = "";
+  void _checkWinner() {
+    String winner = "";
 
-  // Rows
-  if (X_O_display[0] == X_O_display[1] &&
-      X_O_display[1] == X_O_display[2] &&
-      X_O_display[0] != "") {
-    winner = X_O_display[0];
-  } 
-  else if (X_O_display[3] == X_O_display[4] &&
-      X_O_display[4] == X_O_display[5] &&
-      X_O_display[3] != "") {
-    winner = X_O_display[3];
-  } 
-  else if (X_O_display[6] == X_O_display[7] &&
-      X_O_display[7] == X_O_display[8] &&
-      X_O_display[6] != "") {
-    winner = X_O_display[6];
+    // Rows
+    if (X_O_display[0] == X_O_display[1] &&
+        X_O_display[1] == X_O_display[2] &&
+        X_O_display[0] != "") {
+      winner = X_O_display[0];
+    } else if (X_O_display[3] == X_O_display[4] &&
+        X_O_display[4] == X_O_display[5] &&
+        X_O_display[3] != "") {
+      winner = X_O_display[3];
+    } else if (X_O_display[6] == X_O_display[7] &&
+        X_O_display[7] == X_O_display[8] &&
+        X_O_display[6] != "") {
+      winner = X_O_display[6];
+    }
+    // Columns
+    else if (X_O_display[0] == X_O_display[3] &&
+        X_O_display[3] == X_O_display[6] &&
+        X_O_display[0] != "") {
+      winner = X_O_display[0];
+    } else if (X_O_display[1] == X_O_display[4] &&
+        X_O_display[4] == X_O_display[7] &&
+        X_O_display[1] != "") {
+      winner = X_O_display[1];
+    } else if (X_O_display[2] == X_O_display[5] &&
+        X_O_display[5] == X_O_display[8] &&
+        X_O_display[2] != "") {
+      winner = X_O_display[2];
+    }
+    // Diagonals
+    else if (X_O_display[0] == X_O_display[4] &&
+        X_O_display[4] == X_O_display[8] &&
+        X_O_display[0] != "") {
+      winner = X_O_display[0];
+    } else if (X_O_display[2] == X_O_display[4] &&
+        X_O_display[4] == X_O_display[6] &&
+        X_O_display[2] != "") {
+      winner = X_O_display[2];
+    }
+
+    // If winner found
+    if (winner != "") {
+      _showWinMsg(winner);
+      return;
+    }
+
+    // If no winner and board full → Draw
+    if (filledBoxes == 9) {
+      _showDrawmsg();
+    }
   }
-
-  // Columns
-  else if (X_O_display[0] == X_O_display[3] &&
-      X_O_display[3] == X_O_display[6] &&
-      X_O_display[0] != "") {
-    winner = X_O_display[0];
-  } 
-  else if (X_O_display[1] == X_O_display[4] &&
-      X_O_display[4] == X_O_display[7] &&
-      X_O_display[1] != "") {
-    winner = X_O_display[1];
-  } 
-  else if (X_O_display[2] == X_O_display[5] &&
-      X_O_display[5] == X_O_display[8] &&
-      X_O_display[2] != "") {
-    winner = X_O_display[2];
-  }
-
-  // Diagonals
-  else if (X_O_display[0] == X_O_display[4] &&
-      X_O_display[4] == X_O_display[8] &&
-      X_O_display[0] != "") {
-    winner = X_O_display[0];
-  } 
-  else if (X_O_display[2] == X_O_display[4] &&
-      X_O_display[4] == X_O_display[6] &&
-      X_O_display[2] != "") {
-    winner = X_O_display[2];
-  }
-
-  // If winner found
-  if (winner != "") {
-    _showWinMsg(winner);
-    return;
-  }
-
-  // If no winner and board full → Draw
-  if (filledBoxes == 9) {
-    _showDrawmsg();
-  }
-}
-
 
   void _showWinMsg(String winner) {
     setState(() {
@@ -174,8 +178,8 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Player 01: O', style: _myTextStuyles),
-                      Text('$Oscore', style: _myTextStuyles),
+                      Text('Player 01: O', style: myNewWhiteFont),
+                      Text('$Oscore', style: myNewWhiteFont),
                     ],
                   ),
                 ),
@@ -184,8 +188,8 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Player 02: X', style: _myTextStuyles),
-                      Text('$Xscore', style: _myTextStuyles),
+                      Text('Player 02: X', style: myNewWhiteFont),
+                      Text('$Xscore', style: myNewWhiteFont),
                     ],
                   ),
                 ),
@@ -205,16 +209,13 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Color.fromARGB(255, 48, 13, 87),
+                        color: Color.fromARGB(255, 105, 104, 106),
                       ),
                     ),
                     child: Center(
                       child: Text(
                         X_O_display[index],
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 40),
                       ),
                     ),
                   ),
@@ -222,7 +223,25 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-          Expanded(child: Container(color: Colors.red)),
+          Expanded(
+            child: Center(
+              child: Text(
+                "TIC TAC TOE",
+                style: myNewFont.copyWith(
+                  color: Colors.deepOrange,
+                  fontSize: 18,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 8,
+                      color: Colors.black,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Image.asset("assets/tictactoelogo.png", height: 80),
         ],
       ),
     );

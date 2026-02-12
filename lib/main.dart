@@ -11,19 +11,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-static final TextStyle myNewFont = GoogleFonts.pressStart2p(
-  textStyle: const TextStyle(
-    color: Colors.black,
-    letterSpacing: 3,
-  ),
-);
-static final TextStyle myNewWhiteFont = GoogleFonts.pressStart2p(
-  textStyle: const TextStyle(
-    color: Colors.white,
-    letterSpacing: 3,
-    fontSize:15
-  ),
-);
 
   // This widget is the root of your application.
   @override
